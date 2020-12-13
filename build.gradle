@@ -19,6 +19,7 @@ dependencies {
 	implementation ('org.springframework.boot:spring-boot-starter-data-redis') {
 		exclude group: 'io.lettuce', module: 'lettuce-core'
 	}
+	implementation 'redis.clients:jedis'
 	//Model
 	compileOnly 'org.projectlombok:lombok:1.18.8'
 	annotationProcessor 'org.projectlombok:lombok:1.18.8'
