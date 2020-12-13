@@ -1,0 +1,9 @@
+version: '3.7'
+services:
+  roulette-api:
+    container_name: roulette-api-container
+    build: .
+    depends_on:
+      - redis
+  redis:
+    image: "redis:alpine"

@@ -1,0 +1,15 @@
+server:
+  port: 9090
+  servlet:
+    context-path: /roulette
+logging:
+  level:
+    org.springframework.data: DEBUG
+spring:
+  redis:
+    host: localhost
+    port: 6379
+    max-total: 8
+    max-idle: 8
+    min-idle: 8
+    min-evictable-idle: 1800000
