@@ -4,7 +4,7 @@ server:
     context-path: /roulette
 logging:
   level:
-    org.springframework.data: DEBUG
+    org.springframework: DEBUG
 spring:
   redis:
     host: localhost
