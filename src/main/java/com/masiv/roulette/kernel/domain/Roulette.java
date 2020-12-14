@@ -14,10 +14,13 @@ import org.springframework.data.annotation.Id;
 @RedisHash("roulettes")
 public class Roulette {
     @Id
-    String id;
-    RouletteStatus status;
+    private String id;
+    private RouletteStatus status;
 
     public boolean isReadyToBeOpen(){
         return RouletteStatus.CREATED.equals(status);
+    }
+    public boolean isReadyToReceiveBet(){
+        return RouletteStatus.OPEN.equals(status);
     }
 }
