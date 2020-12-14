@@ -16,4 +16,8 @@ public class Roulette {
     @Id
     String id;
     RouletteStatus status;
+
+    public boolean isReadyToBeOpen(){
+        return RouletteStatus.CREATED.equals(status);
+    }
 }
