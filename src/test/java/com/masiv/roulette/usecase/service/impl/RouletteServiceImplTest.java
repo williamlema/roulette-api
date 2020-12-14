@@ -1,8 +1,11 @@
 package com.masiv.roulette.usecase.service.impl;
 
+import com.masiv.roulette.adapter.in.controller.dto.BetRequest;
 import com.masiv.roulette.adapter.in.controller.dto.RouletteIdPayload;
 import com.masiv.roulette.adapter.in.controller.dto.RoulettePayload;
+import com.masiv.roulette.adapter.out.redis.BetRepository;
 import com.masiv.roulette.adapter.out.redis.RouletteRepository;
+import com.masiv.roulette.kernel.domain.Bet;
 import com.masiv.roulette.kernel.domain.Roulette;
 import com.masiv.roulette.kernel.domain.RouletteStatus;
 import com.masiv.roulette.kernel.exception.BadRequestException;
@@ -19,6 +22,8 @@ import java.util.Optional;
 
 import static com.masiv.roulette.util.TestUtil.getRoulette;
 import static com.masiv.roulette.util.TestUtil.getRouletteList;
+import static com.masiv.roulette.util.TestUtil.getBetRequest;
+import static com.masiv.roulette.util.TestUtil.getBet;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
@@ -32,6 +37,9 @@ class RouletteServiceImplTest {
 
     @Mock
     private RouletteRepository rouletteRepository;
+
+    @Mock
+    private BetRepository betRepository;
 
     @Test
     void givenRequestEventWhenCreateRouletteThenReturnRouletteId() {
@@ -71,11 +79,47 @@ class RouletteServiceImplTest {
     }
 
     @Test
-    void givenRouletteIdWheOpenRouletteThenThrowsNotFoundException(){
+    void givenRouletteIdWheOpenRouletteThenThrowsNotFoundException() {
         String rouletteId = "fakeId";
         doReturn(Optional.empty()).when(rouletteRepository).findById(rouletteId);
         Assertions.assertThrows(NotFoundException.class, () ->
                 rouletteService.open(rouletteId)
         );
+    }
+
+    @Test
+    void givenRouletteIdAndBetReqeustWheBetThenThrowsNotFoundException() {
+        String rouletteId = "fakeId";
+        String clientId = "idCliente";
+        BetRequest request = getBetRequest();
+        doReturn(Optional.empty()).when(rouletteRepository).findById(rouletteId);
+        Assertions.assertThrows(NotFoundException.class, () ->
+                rouletteService.bet(rouletteId, clientId, request)
+        );
+    }
+
+    @Test
+    void givenRouletteIdAndBetReqeustWheBetThenThrowsBadRequestException() {
+        String rouletteId = "fakeId";
+        String clientId = "idCliente";
+        BetRequest request = getBetRequest();
+        Roulette roulette = getRoulette(RouletteStatus.CLOSED);
+        doReturn(Optional.of(roulette)).when(rouletteRepository).findById(rouletteId);
+        Assertions.assertThrows(BadRequestException.class, () ->
+                rouletteService.bet(rouletteId, clientId, request)
+        );
+    }
+
+    @Test
+    void givenRouletteIdAndBetReqeustWheBetThenSaveBet() {
+        Roulette roulette = getRoulette(RouletteStatus.OPEN);
+        String clientId = "idCliente";
+        BetRequest request = getBetRequest();
+        Bet bet = getBet(roulette.getId(), clientId);
+        doReturn(Optional.of(roulette)).when(rouletteRepository).findById(roulette.getId());
+        doReturn(bet).when(betRepository).save(any(Bet.class));
+        rouletteService.bet(roulette.getId(), clientId, request);
+        verify(rouletteRepository).findById(roulette.getId());
+        verify(betRepository).save(any(Bet.class));
     }
 }
