@@ -2,8 +2,18 @@ version: '3.7'
 services:
   roulette-api:
     container_name: roulette-api-container
+    ports:
+      - 9090:9090
+    expose:
+      - 9090
     build: .
     depends_on:
       - redis
   redis:
     image: "redis:alpine"
+    ports:
+      - 6379:6379
+    expose:
+      - 6379
+    volumes:
+    - ./redis.conf:/path/to/redis.conf
