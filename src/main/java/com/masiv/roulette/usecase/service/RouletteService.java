@@ -1,8 +1,8 @@
 package com.masiv.roulette.usecase.service;
 
+import com.masiv.roulette.adapter.in.controller.dto.BetRequest;
 import com.masiv.roulette.adapter.in.controller.dto.RouletteIdPayload;
 import com.masiv.roulette.adapter.in.controller.dto.RoulettePayload;
-import com.masiv.roulette.kernel.domain.Roulette;
 
 public interface RouletteService {
 
@@ -11,4 +11,6 @@ public interface RouletteService {
     Iterable<RoulettePayload> list();
 
     void open(String rouletteId);
+
+    void bet(String rouletteId, String userId, BetRequest request);
 }
