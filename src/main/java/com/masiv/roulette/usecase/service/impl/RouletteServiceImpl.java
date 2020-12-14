@@ -25,4 +25,10 @@ public class RouletteServiceImpl implements RouletteService {
 
         return RouletteIdPayload.builder().rouletteId(newRoulette.getId()).build();
     }
+
+    @Override
+    public Iterable<Roulette> list() {
+
+        return rouletteRepository.findAll();
+    }
 }
