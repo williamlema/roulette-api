@@ -17,11 +17,13 @@ public class RouletteController {
 
     @PostMapping
     public ResponseEntity<RouletteIdPayload> create(){
+
         return ResponseEntity.ok(rouletteService.create());
     }
 
     @GetMapping
     public ResponseEntity<Iterable<Roulette>> list(){
+
         return ResponseEntity.ok(rouletteService.list());
     }
 }

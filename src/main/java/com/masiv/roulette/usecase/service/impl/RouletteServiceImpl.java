@@ -8,7 +8,6 @@ import com.masiv.roulette.usecase.service.RouletteService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -29,6 +28,7 @@ public class RouletteServiceImpl implements RouletteService {
 
     @Override
     public Iterable<Roulette> list() {
+
         return rouletteRepository.findAll();
     }
 }
