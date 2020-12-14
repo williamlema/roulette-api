@@ -33,10 +33,8 @@ public class RedisConfig {
     public JedisConnectionFactory jedisConnectionFactory() {
         RedisStandaloneConfiguration config = new RedisStandaloneConfiguration(hostName, port);
         JedisClientConfigurationBuilder jedisClientConfig = JedisClientConfiguration.builder();
-        JedisConnectionFactory factory = new JedisConnectionFactory(config,
-                jedisClientConfig.usePooling().poolConfig(jedisPoolConfig()).build());
 
-        return factory;
+        return new JedisConnectionFactory(config, jedisClientConfig.usePooling().poolConfig(jedisPoolConfig()).build());
     }
 
     private JedisPoolConfig jedisPoolConfig() {
@@ -53,7 +51,7 @@ public class RedisConfig {
     public RedisTemplate<String, Object> redisTemplate() {
         RedisTemplate<String, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(jedisConnectionFactory());
-        template.setValueSerializer(new GenericToStringSerializer<Object>(Object.class));
+        template.setValueSerializer(new GenericToStringSerializer<>(Object.class));
 
         return template;
     }
