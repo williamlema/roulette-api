@@ -7,7 +7,7 @@ logging:
     org.springframework: DEBUG
 spring:
   redis:
-    host: localhost
+    host: redis
     port: 6379
     max-total: 8
     max-idle: 8
