@@ -122,4 +122,14 @@ class RouletteServiceImplTest {
         verify(rouletteRepository).findById(roulette.getId());
         verify(betRepository).save(any(Bet.class));
     }
+
+    @Test
+    void givenRouletteIdWheCloseRouletteThenNotFoundException() {
+        String rouletteId = "fakeId";
+        doReturn(Optional.empty()).when(rouletteRepository).findById(rouletteId);
+        Assertions.assertThrows(NotFoundException.class, () ->
+                rouletteService.close(rouletteId)
+        );
+    }
+
 }

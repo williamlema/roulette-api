@@ -1,6 +1,7 @@
 package com.masiv.roulette.adapter.in.controller;
 
 import com.masiv.roulette.adapter.in.controller.dto.BetRequest;
+import com.masiv.roulette.adapter.in.controller.dto.CloseRoulettePayload;
 import com.masiv.roulette.adapter.in.controller.dto.RouletteIdPayload;
 import com.masiv.roulette.adapter.in.controller.dto.RoulettePayload;
 import com.masiv.roulette.usecase.service.RouletteService;
@@ -46,5 +47,11 @@ public class RouletteController {
         rouletteService.bet(rouletteId, userId, request);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("{rouletteId}/close")
+    public ResponseEntity<CloseRoulettePayload> close(@PathVariable String rouletteId){
+
+        return ResponseEntity.ok(rouletteService.close(rouletteId));
     }
 }
