@@ -1,7 +1,10 @@
 package com.masiv.roulette.usecase.service.impl;
 
+import com.masiv.roulette.adapter.in.controller.dto.BetRequest;
 import com.masiv.roulette.adapter.in.controller.dto.RouletteIdPayload;
 import com.masiv.roulette.adapter.in.controller.dto.RoulettePayload;
+import com.masiv.roulette.adapter.out.redis.BetRepository;
+import com.masiv.roulette.kernel.domain.Bet;
 import com.masiv.roulette.usecase.service.mapper.RouletteMapper;
 import com.masiv.roulette.adapter.out.redis.RouletteRepository;
 import com.masiv.roulette.kernel.domain.Roulette;
@@ -21,7 +24,9 @@ import java.util.stream.StreamSupport;
 public class RouletteServiceImpl implements RouletteService {
 
     private final RouletteRepository rouletteRepository;
+    private final BetRepository betRepository;
     private final String NOT_FOUND_MESSAGE = "Roulette not found";
+    private final String BET_BAD_REQUEST_MESSAGE = "Roulette is not open";
     private final String BAD_REQUEST_MESSAGE = "Roulette is already open or is closed";
 
     @Override
@@ -51,6 +56,26 @@ public class RouletteServiceImpl implements RouletteService {
             rouletteRepository.save(roulette);
         } else {
             throw new BadRequestException(BAD_REQUEST_MESSAGE);
+        }
+    }
+
+    @Override
+    public void bet(String rouletteId, String userId, BetRequest request) {
+        Roulette roulette = rouletteRepository.findById(rouletteId)
+                .orElseThrow(() -> new NotFoundException(NOT_FOUND_MESSAGE));
+        if(roulette.isReadyToReceiveBet()){
+            betRepository.save(Bet.builder()
+                    .id(UUID.randomUUID().toString())
+                    .rouletteId(roulette.getId())
+                    .userId(userId)
+                    .color(request.getColor())
+                    .number(request.getNumber())
+                    .value(request.getNumber())
+                    .type(request.getType())
+                    .build()
+            );
+        } else {
+            throw new BadRequestException(BET_BAD_REQUEST_MESSAGE);
         }
     }
 }

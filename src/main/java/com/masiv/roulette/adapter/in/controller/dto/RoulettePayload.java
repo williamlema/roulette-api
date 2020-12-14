@@ -7,6 +7,6 @@ import lombok.Data;
 @Builder
 @Data
 public class RoulettePayload {
-    String id;
-    RouletteStatus status;
+    private String id;
+    private RouletteStatus status;
 }

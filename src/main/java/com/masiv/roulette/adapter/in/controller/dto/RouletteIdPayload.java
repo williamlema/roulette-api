@@ -6,5 +6,5 @@ import lombok.Data;
 @Builder
 @Data
 public class RouletteIdPayload {
-    String rouletteId;
+    private String rouletteId;
 }
