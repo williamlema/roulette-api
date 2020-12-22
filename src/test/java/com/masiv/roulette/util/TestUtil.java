@@ -18,6 +18,7 @@ public class TestUtil {
         return Roulette.builder()
                 .id(UUID.randomUUID().toString())
                 .status(status)
+                .bets(Arrays.asList(getBet("testID")))
                 .build();
     }
 
@@ -31,19 +32,18 @@ public class TestUtil {
         return BetRequest.builder()
                 .color(BetColor.RED)
                 .type(BetType.COLOR)
-                .value(10000)
+                .value(10000.0)
                 .build();
     }
 
-    public static Bet getBet(String roulette, String userId){
+    public static Bet getBet(String userId){
 
         return Bet.builder()
                 .id(UUID.randomUUID().toString())
-                .rouletteId(roulette)
                 .userId(userId)
                 .color(BetColor.RED)
                 .type(BetType.COLOR)
-                .value(10000)
+                .value(10000.0)
                 .build();
     }
 
