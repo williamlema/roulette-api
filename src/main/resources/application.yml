@@ -13,3 +13,7 @@ spring:
     max-idle: 8
     min-idle: 8
     min-evictable-idle: 1800000
+roulette:
+  limits:
+    max: 36
+    min: 0
