@@ -18,7 +18,7 @@ public class BetRequest {
     private BetType type;
     @Max(10000)
     @Min(1)
-    private Integer value;
+    private Double value;
     private BetColor color;
     @Max(36)
     @Min(0)
